@@ -49,22 +49,6 @@ function datesForGrid(year, month) {
   return dates;
 }
 
-function render() {  
-  var calendarApp = document.querySelector('[data-app=calendar-app]');
-  // Building the calendar app HTML from the data
-  calendarApp.innerHTML = `
-      <div class="calendar-nav">
-        <button id="prev-month">Previous</button>
-        <h2>${months[state.month]} ${state.year}</h2>
-        <button id="next-month">Next</button>
-      </div>
-      <div class='calendar-grid'>
-        ${ daysOfWeek.map(day => `<div>${day}</div>` ).join('') }
-        ${ datesForGrid(state.year, state.month).map(date => `<div id="${date.key}" class="${date.monthClass} ${date.todayClass ? date.todayClass : ''}">${date.date}</div>`).join('') }
-      </div>
-  `;
-}
-
 function showCalendar(prevNextIndicator) {
   var date = new Date(state.year, state.month + prevNextIndicator);
   //Update the state
@@ -84,5 +68,54 @@ document.addEventListener('click', function(ev) {
     showCalendar(1);
   }
 });
+
+/**
+ * fonction qui affiche le calendrier
+ */
+function render() {  
+  var calendarApp = document.querySelector('[data-app=calendar-app]');
+    // Building the calendar app HTML from the data
+  calendarApp.innerHTML = `
+      <div class="calendar-nav">
+        <button id="prev-month">Previous</button>
+        <h2>${months[state.month]} ${state.year}</h2>
+        <button id="next-month">Next</button>
+      </div>
+      <div class='calendar-grid'>
+        ${ daysOfWeek.map(day => `<div>${day}</div>` ).join('') }
+        ${ datesForGrid(state.year, state.month).map(date => `<div id="${date.key}" class="${date.monthClass} ${date.todayClass ? date.todayClass : ''}">${date.date}</div>`).join('') }
+      </div>
+  `;
+// ajout peb
+const cells = document.querySelectorAll(".current, .prev, .next");
+
+;
+for (var i=0; i<cells.length; i++){
+  cells[i].style.cursor = 'pointer';
+    cells[i].addEventListener('click',openForm);
+        
+};
+}
+var dateCell ='';
+const askDate = document.querySelector(".putDate");
+function openForm() {
+  document.getElementById("popupForm").style.display = "block";
+  dateCell =this.id;
+  dd=dateCell.slice(0,2);
+  mm=dateCell.slice(3,5);
+  yyyy=dateCell.slice(6,10);
+  thisDay = yyyy + '-' + mm + '-' + dd;
+  document.getElementById("dateDate").value = thisDay;
+
+  }
+
+function closeForm() {
+  document.getElementById("popupForm").style.display = "none";
+}
+// fin ajout peb
+
+
+
+
 
 

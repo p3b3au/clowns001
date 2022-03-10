@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="calendar.css">
+    <link rel="stylesheet" href="form_popup.css">
+    <title>calendar</title>
+</head>
+
+<body>
+    <div class="login-popup">
+        
+            <form action="/action_page.php" class="form-container" method="post">
+
+                <label for="dateDate"><strong>vous avez selectionné</strong>
+                </label>
+                <input type="date" id="dateDate" name="dateDate">
+                <div><strong class='putDate'></strong></div><br>
+                <label for="dateTime"><strong>choisir une heure de début</strong>
+                </label>
+                <input timeformat="24h" type="time" id="dateTime" name="dateTime" value="02:00:PM">
+                <br><br>
+                <button type="submit" class="btn">valider</button>
+                <button type="button" class="btn cancel" onclick="closeForm()">annuler</button>
+            </form>
+        <div id="auj">
+
+        </div>
+        <div>
+            <label for="date">Date</label>
+            <input type="datetime-local" onload="getDate()" class="form-control" id="date" 
+              name="date">
+        </div>
+    </div>
+    <?php
+    require 'admin/article_sql.php';
+    ?>
+</body>
+
+<script src="action.js"></script>
+<script>
+    var today = new Date();
+var dd = String(today.getDate()).padStart(2, '0');
+var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+var yyyy = today.getFullYear();
+today = yyyy + '-' + mm + '-' + dd;
+
+    const affJour = document.getElementById("auj");
+    affJour.textContent= today;
+
+
+
+    function getDate() {
+  var today = new Date();
+  var dd = today.getDate();
+  var mm = today.getMonth()+1; //January is 0!
+  var yyyy = today.getFullYear();
+
+  if(dd<10) {
+      dd = '0'+dd
+  } 
+
+  if(mm<10) {
+      mm = '0'+mm
+  } 
+  today = yyyy + '-' + mm + '-' + dd;
+  console.log(today);
+  document.getElementById("dateDate").value = today;
+}
+
+window.onload = function() {
+  getDate();
+};
+</script>
+
+</html>
